@@ -1,0 +1,289 @@
+--// Whitelist \--
+local UserIDs = {68585701,
+    69979497,
+    153128626,
+    348867250,
+    969478913,
+    2704453814,
+    4040141835,
+    52785097,
+    64239384
+}
+local library
+if table.find(UserIDs, game.Players.LocalPlayer.UserId) then
+   library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+end
+--// Windows/Dropdowns \--
+local farming = library:CreateWindow("Farming")
+local PVP = library:CreateWindow('PVP')
+
+local bosses = farming:CreateFolder("Bosses/Raids")
+local miscMobs = farming:CreateFolder('Misc Mobs')
+local testing = farming:CreateFolder('Testing')
+local targetplayer = PVP:CreateFolder('Target Player')
+local hitbox = PVP:CreateFolder('Change Target Hitbox')
+local checkLevel = farming:CreateFolder('Check Levels')
+local util = farming:CreateFolder("Utilities")
+local tpbehind = PVP:CreateFolder('Teleport Behind')
+
+--// Variables \--
+_G.canrunD = true
+_G.canrunM1 = true
+_G.canrunM2 = true
+_G.canrunC = true
+_G.smart = false
+_G.dummys = false
+_G.strong = false
+_G.AllMobs = false
+_G.Celdryx = false
+_G.hitboxesE = false
+local client = game.Players.LocalPlayer
+local limit
+local target
+local size
+
+--// Remote Fire \--
+local callRemote do
+    for i, v in pairs(getgc()) do
+    if type(v) == 'function' and islclosure(v) and not is_synapse_function(v) then
+        local constants = getconstants(v)
+        local upvalues = getupvalues(v)
+        local info = debug.getinfo(v)
+        if table.find(constants, 'Hit') and table.find(constants, 3) and table.find(constants, 'pass') then
+            callRemote = v
+            wait(0.04)
+            break
+    end
+    end
+end
+end
+
+--// Check Level Of Players \--
+local function checkLVL(player)
+    return (player.Character.Humanoid.MaxHealth - 100)/30
+end
+
+--// Use all attacks \--
+local function attacks(target)
+    wait(0.01)
+   callRemote('Hit', target.Humanoid, target.Head, 'Vortex')
+            callRemote('Hit', target.Humanoid, target.Head, 'Reitsu Wave')
+            callRemote('Hit', target.Humanoid, target.Head, 'Tesseract')
+            callRemote('Hit', target.Humanoid, target.Head, 'Royal Sword')
+            callRemote('Hit', target.Humanoid, target.Head, "Celdryx's Hammer")
+            callRemote('Hit', target.Humanoid, target.Head, 'Blade Explosion')
+            callRemote('Hit', target.Humanoid, target.Head, 'Reitsu Blast')
+            callRemote('Hit', target.Humanoid, target.Head, 'Blade Launcher')
+            callRemote('Hit', target.Humanoid, target.Head, 'Blade Fall')
+            callRemote('Hit', target.Humanoid, target.Head, 'Shockwave')
+            callRemote('Hit', target.Humanoid, target.Head, 'Gamma Quake')
+            callRemote('Hit', target.Humanoid, target.Head, 'Gamma Ray Cannon')
+            callRemote('Hit', target.Humanoid, target.Head, 'Cero Bomb')
+            callRemote('Hit', target.Humanoid, target.Head, 'Attack')
+            callRemote('Hit', target.Humanoid, target.Head, 'Cero')
+            callRemote('Hit', target.Humanoid, target.Head, 'Cero Blast')
+            callRemote('Hit', target.Humanoid, target.Head, 'Bala')
+            callRemote('Hit', target.Humanoid, target.Head, 'Grand Rey Cero')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sphere Shower')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sphere Ball')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sphere Storm')
+            callRemote('Hit', target.Humanoid, target.Head, 'Multi Shot')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sphere Burst')
+            callRemote('Hit', target.Humanoid, target.Head, 'Trishot')
+            callRemote('Hit', target.Humanoid, target.Head, 'Venom Explosion')
+            callRemote('Hit', target.Humanoid, target.Head, 'Cero Beam')
+            callRemote('Hit', target.Humanoid, target.Head, 'Venom Spit')
+            callRemote('Hit', target.Humanoid, target.Head, 'Ki Burst')
+            callRemote('Hit', target.Humanoid, target.Head, 'Venom Breathe')
+            callRemote('Hit', target.Humanoid, target.Head, 'Hado 33')
+            callRemote('Hit', target.Humanoid, target.Head, 'Hado 31')
+            callRemote('Hit', target.Humanoid, target.Head, 'Moon blade')
+            callRemote('Hit', target.Humanoid, target.Head, 'Getsuga Tensho')
+            callRemote('Hit', target.Humanoid, target.Head, 'Soren Sokatsui')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sinful Punch')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sinful Flame')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sinners Burst')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sinners Explosion')
+            callRemote('Hit', target.Humanoid, target.Head, 'Sinful Spear')
+            callRemote('Hit', target.Humanoid, target.Head, 'Fire Star')
+            callRemote('Hit', target.Humanoid, target.Head, 'Rapid Fire')
+            callRemote('Hit', target.Humanoid, target.Head, 'Spread shot')
+            wait()
+            callRemote('Hit', target.Humanoid, target.Head, 'Homing Arrow')
+            callRemote('Hit', target.Humanoid, target.Head, 'Auto Turret')
+            callRemote('Hit', target.Humanoid, target.Head, 'Explosive Shot')
+            callRemote('Hit', target.Humanoid, target.Head, 'Gravity Ball')
+            callRemote('Hit', target.Humanoid, target.Head, 'Jumping Sidekick')
+            callRemote('Hit', target.Humanoid, target.Head, 'Quincy Bow') 
+end
+
+--// Attacks all mobs \--
+local function AllMobs()
+for i, v in next, (game.Workspace.Mobs:GetChildren()) do
+    if v.Humanoid.Health > 0 and client.Character and client.Character.PrimaryPart 
+    then
+        if limit ~= nil then
+        if checkLVL(client) < limit then
+        if _G.AllMobs then
+           attacks(v)
+        end
+        end
+        elseif limit == nil then
+    if _G.AllMobs then
+        attacks(v)
+    end
+        end
+end
+end
+end
+
+--// Change hitboxes of players \--
+local function hitboxes()
+        target.Character.HumanoidRootPart.Size = Vector3.new(size, size, size)
+        target.Character.HumanoidRootPart.CanCollide = false
+        target.Character.HumanoidRootPart.Transparency = 0.3
+        target.Character.HumanoidRootPart.Anchored = false
+end
+
+--// Attacks dummies \--
+local function dummys()
+for i,v in next, game:GetService("Workspace").City.TrainingAreas.Trainers:GetChildren() do
+if client.Character and client.Character.PrimaryPart and _G.canrunD  then
+    if limit ~= nil then
+        if tonumber(checkLVL(game.Players.LocalPlayer)) < tonumber(limit) then
+        if _G.dummys then
+            if tonumber(checkLVL(game.Players.LocalPlayer)) >= tonumber(limit) or not _G.dummys then
+                break
+                else 
+           _G.canrunD = false
+            attacks(v)
+            _G.canrunD = true
+            end
+        end
+        end
+        elseif limit == nil then
+    if _G.dummys then
+        _G.canrunD = false
+            attacks(v)
+            
+            _G.canrunD = true
+    end
+        end
+end
+            
+end
+end
+--// Attacks 2m+ health mobs \--
+local function strong()
+for i, v in next, (game.Workspace.Mobs:GetChildren()) do
+    if v.Humanoid.Health > 0 and v.Humanoid.MaxHealth >= 2000000 or v.Name:match('Menos') then
+        if _G.strong and _G.canrunM1 then
+            _G.canrunM1 = false
+           attacks(v)
+           wait(0.01)
+           _G.canrunM1 = true
+        end
+        elseif not v.Name:match('Menos') then
+            print(_G.canrunM1)
+            _G.canrunM1 = true
+    end
+end
+end
+
+--// Kills Celdryx (kind of useless) \--
+local function Celdryx()
+for i, v in next, (game.Workspace.Mobs:GetChildren()) do
+    if v.Humanoid.Health > 0 and v.Name:match('Celdryx') then
+        if _G.Celdryx and _G.canrunC then
+            _G.canrunC = false
+            wait(0.1)
+           attacks(v)
+           _G.canrunC = true
+end
+end
+end
+end
+
+--// Variable checks \--
+local function checks1()
+    game:GetService("Workspace").Mobs.ChildAdded:connect(function(child)
+           if _G.strong or _G.AllMobs then
+               repeat
+           attacks(child)
+           until child.Health <= 0
+           end
+    end)
+       if _G.AllMobs then
+       AllMobs()
+   end
+       if _G.strong then
+       strong()
+   end
+   if _G.dummys then
+       dummys()
+   end
+    if _G.Celdryx then
+        Celdryx()
+    end
+    if _G.hitboxesE then
+        hitboxes()
+    end
+end
+
+--// UI \--
+bosses:Button('Anti AFK', function()
+    local vu = game:GetService("VirtualUser")
+	game:GetService("Players").LocalPlayer.Idled:connect(function()
+		vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		wait(1)
+		vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+	end)
+end)
+bosses:Toggle('Strong mobs (2m+ hp)', function(bool)
+     _G.strong = bool
+end)
+util:Box('Level Limiter', 'number', function(value)
+   limit = value 
+end)
+miscMobs:Toggle('Attack Dummys', function(bool)
+    _G.dummys = bool
+end)
+miscMobs:Toggle('All Mobs', function(bool)
+   _G.AllMobs = bool 
+end)
+bosses:Toggle('Celdryx', function(bool)
+   _G.Celdryx = bool 
+end)
+for x, players in next, (game.Players:GetChildren()) do
+    local checklvl = checkLevel:Label(players.DisplayName .. ": ".. checkLVL(players),{
+    TextSize = 15; 
+    TextColor = Color3.fromRGB(0,0,0); 
+    BgColor = Color3.fromRGB(255, 255, 255);
+    
+}) 
+end
+targetplayer:Box('Name on leaderboard', 'string',function(value)
+    for i, player in next, game.Players:GetChildren() do
+    if player.DisplayName == value then
+        target = player
+    end
+end
+end)
+hitbox:Slider('Hitbox Size', {
+    min = 3.1;
+    max = 20;
+    precise = true;
+}, function(value)
+_G.hitboxesE = true
+    size = value
+end)
+tpbehind:Bind('Choose Keybind', Enum.KeyCode.LeftControl, function()
+    if target ~= nil then
+   client.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame - target.Character.HumanoidRootPart.CFrame.LookVector * 7
+    end
+end)
+
+--// Run Last \--
+while wait() do
+    checks1()
+end
